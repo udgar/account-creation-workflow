@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 2,
+  "components": [
+    {
+      "label": "Pack Cash",
+      "type": "textfield",
+      "id": "Field_0y824pj",
+      "key": "money",
+      "description": "How much cash for horse?",
+      "validate": {
+        "required": true,
+        "regularExpressionPattern": "/^\\d*\\.?\\d*$/"
+      }
+    },
+    {
+      "label": "Destination",
+      "type": "textfield",
+      "id": "Field_1m3s259",
+      "key": "destination",
+      "description": "Where we will be going?",
+      "validate": {
+        "regularExpressionPattern": "America|France"
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_0o9pzy9"
+}
