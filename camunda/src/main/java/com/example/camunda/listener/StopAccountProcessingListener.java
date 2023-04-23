@@ -8,22 +8,20 @@ import java.util.List;
 
 import static com.example.camunda.model.Processes.*;
 
+
 @Component
-public class RetouchProcessListener extends AccountWorkflowProcessListener {
-
-
-    protected RetouchProcessListener(TaskService taskService) {
+public class StopAccountProcessingListener extends AccountWorkflowProcessListener {
+    protected StopAccountProcessingListener(TaskService taskService) {
         super(taskService);
     }
 
     @Override
     public Processes getProcess() {
-        return RETOUCH;
+        return STOP_ACCOUNT_PROCESSING;
     }
-
 
     @Override
     public List<Processes> getNextAction(String processInstanceId) {
-        return List.of(VERIFY_INFORMATION, RETOUCH, STOP);
+        return List.of(VERIFY_STOP, CANCEL_STOP);
     }
 }

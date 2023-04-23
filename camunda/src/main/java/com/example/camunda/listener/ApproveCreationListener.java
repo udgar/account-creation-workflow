@@ -6,24 +6,21 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.example.camunda.model.Processes.*;
+import static com.example.camunda.model.Processes.CANCEL_APPROVAL;
 
 @Component
-public class RetouchProcessListener extends AccountWorkflowProcessListener {
-
-
-    protected RetouchProcessListener(TaskService taskService) {
+public class ApproveCreationListener extends AccountWorkflowProcessListener {
+    protected ApproveCreationListener(TaskService taskService) {
         super(taskService);
     }
 
     @Override
     public Processes getProcess() {
-        return RETOUCH;
+        return Processes.APPROVE_CREATION;
     }
-
 
     @Override
     public List<Processes> getNextAction(String processInstanceId) {
-        return List.of(VERIFY_INFORMATION, RETOUCH, STOP);
+        return List.of(Processes.APPROVE_ACCOUNT, CANCEL_APPROVAL);
     }
 }

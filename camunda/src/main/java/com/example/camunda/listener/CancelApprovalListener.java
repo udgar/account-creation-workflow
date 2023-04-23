@@ -9,21 +9,18 @@ import java.util.List;
 import static com.example.camunda.model.Processes.*;
 
 @Component
-public class RetouchProcessListener extends AccountWorkflowProcessListener {
-
-
-    protected RetouchProcessListener(TaskService taskService) {
+public class CancelApprovalListener extends AccountWorkflowProcessListener{
+    protected CancelApprovalListener(TaskService taskService) {
         super(taskService);
     }
 
     @Override
     public Processes getProcess() {
-        return RETOUCH;
+        return CANCEL_APPROVAL;
     }
-
 
     @Override
     public List<Processes> getNextAction(String processInstanceId) {
-        return List.of(VERIFY_INFORMATION, RETOUCH, STOP);
+        return List.of(VERIFY_INFORMATION,RETOUCH,STOP);
     }
 }

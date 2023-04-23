@@ -1,10 +1,14 @@
 package com.example.camunda.controller;
 
+import com.example.camunda.model.AccountDto;
 import com.example.camunda.model.AccountRequest;
 import com.example.camunda.model.Processes;
 import com.example.camunda.service.AccountService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(value = "/account")
@@ -25,6 +29,21 @@ public class AccountController {
     @PostMapping(value = "/{uuid}/complete/{process}")
     public ResponseEntity<?> completeProcess(@PathVariable String uuid, @PathVariable String process) {
         var account = service.completeProcess(uuid, Processes.valueOf(process));
+        addLinks(account);
         return ResponseEntity.ok(account);
+    }
+
+    @GetMapping(value = "/{uuid}")
+    public ResponseEntity<AccountDto> get(@PathVariable String uuid) {
+        var account = service.get(uuid);
+        addLinks(account);
+        return ResponseEntity.ok(account);
+    }
+
+    private void addLinks(AccountDto accountDto) {
+        accountDto.add(linkTo(methodOn(AccountController.class).get(accountDto.getUuid())).withSelfRel());
+        for (var process : accountDto.getProcess())
+            accountDto.add(linkTo(methodOn(AccountController.class).completeProcess(accountDto.getUuid(),
+                    process.name())).withRel(process.name()));
     }
 }
