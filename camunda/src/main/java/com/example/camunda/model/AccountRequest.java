@@ -15,6 +15,7 @@ public class AccountRequest {
     private String lastName;
     private String addressLine;
     private String citizenshipNumber;
+    private AccountType accountType;
 
 
 }
