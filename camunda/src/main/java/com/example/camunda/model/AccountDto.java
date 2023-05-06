@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -15,6 +17,7 @@ public class AccountDto extends RepresentationModel<AccountDto> {
     private String username;
     private String password;
     private String firstName;
+    private Integer age;
 
     private String middleName;
     private String lastName;
@@ -23,4 +26,6 @@ public class AccountDto extends RepresentationModel<AccountDto> {
     private AccountType accountType;
 
     private List<Processes> process;
+    private List<String> errors;
+    private BigDecimal initialAmount;
 }

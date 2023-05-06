@@ -14,20 +14,26 @@ public class VerificationListener implements JavaDelegate {
 
     private final WorkFlowRepository workFlowRepository;
     private final AccountJpaRepository jpaRepository;
+    private final AccountValidationService validationService;
     private String messageId = null;
 
-    public VerificationListener(WorkFlowRepository workFlowRepository, AccountJpaRepository jpaRepository) {
+    public VerificationListener(WorkFlowRepository workFlowRepository, AccountJpaRepository jpaRepository, AccountValidationService validationService) {
         this.workFlowRepository = workFlowRepository;
         this.jpaRepository = jpaRepository;
+        this.validationService = validationService;
     }
 
     @Override
-    public void execute(DelegateExecution execution) throws Exception {
+    public void execute(DelegateExecution execution) {
         var processInstanceId = execution.getProcessInstanceId();
         workFlowRepository.findByProcessInstanceId(processInstanceId).ifPresentOrElse(workflowEntity -> {
                     messageId = workflowEntity.getMessageId();
                     jpaRepository.findByUuid(messageId).ifPresentOrElse(accountEntity -> {
-                                execution.setVariable("isValid", "true");
+                                var account = validationService.validateAccount(accountEntity);
+                                if (account.getErrors().isEmpty())
+                                    execution.setVariable("isValid", "true");
+                                else
+                                    execution.setVariable("isValid", "false");
                             }, () -> {
                                 execution.setVariable("isValid", "false");
                                 throw new IllegalArgumentException("Account cannot be found");

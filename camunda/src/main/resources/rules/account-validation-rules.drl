@@ -1,0 +1,58 @@
+import com.example.camunda.entity.AccountEntity
+import com.example.camunda.model.AccountType
+import java.util.List
+global com.example.camunda.entity.AccountEntity account
+dialect "mvel"
+
+rule "Child Account Validation, Amount"
+when
+    AccountEntity(getAccountType()==AccountType.CHILD_ACCOUNT
+    && !(getInitialAmount()>=0 && getInitialAmount()<1000))
+then
+    account.addError("Creation of child account failed, Amount Mismatched");
+end
+
+rule "Child Account Validation, Age"
+when
+    AccountEntity(getAccountType()==AccountType.CHILD_ACCOUNT
+    && !(getAge()<=10))
+then
+    account.addError("Creation of child account failed, Age mismatched");
+end
+
+rule "Old people Account Validation, Amount"
+when
+    AccountEntity(getAccountType()==AccountType.OLD_PEOPLE_ACCOUNT
+        && !(getInitialAmount()>=500)
+    )
+then
+    account.addError("Creation of Old People Account failed, Amount not sufficient");
+ end
+
+ rule "Old people Account Validation, Age"
+ when
+     AccountEntity(getAccountType()==AccountType.OLD_PEOPLE_ACCOUNT
+         && !(getAge()>=70)
+     )
+ then
+     account.addError("Creation of Old People Account failed, Age mismatched");
+  end
+
+ rule "Normal Account Validation, Amount"
+ when
+     AccountEntity(getAccountType()==AccountType.NORMAL_ACCOUNT
+         && !(getInitialAmount()>=1000)
+     )
+ then
+     account.addError("Creation of Normal Account failed, Amount not sufficient");
+  end
+
+  rule "Fix deposit Account Validation"
+  when
+      AccountEntity(getAccountType()==AccountType.FIX_DEPOSIT_ACCOUNT
+          && !(getInitialAmount()>=10000)
+      )
+  then
+      account.addError("Creation of Fix Deposit Account failed, Amount not sufficient");
+   end
+
