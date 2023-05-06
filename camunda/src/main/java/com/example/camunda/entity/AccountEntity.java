@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,9 +26,17 @@ public class AccountEntity {
 
     private String middleName;
     private String lastName;
+    private Integer age;
     private String addressLine;
     private String citizenshipNumber;
     private AccountType accountType;
     @ElementCollection
     private List<Processes> nextAction;
+    @ElementCollection
+    private List<String> errors = new ArrayList<>();
+    private BigDecimal initialAmount;
+
+    public void addError(String error) {
+        this.errors.add(error);
+    }
 }

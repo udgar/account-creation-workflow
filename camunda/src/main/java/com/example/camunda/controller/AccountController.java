@@ -23,6 +23,7 @@ public class AccountController {
     @PostMapping(value = "/create")
     public ResponseEntity<?> createUserAccount(@RequestBody AccountRequest request) {
         var message = service.initializeNewAccountCreation(request);
+        addLinks(message);
         return ResponseEntity.ok(message);
     }
 
