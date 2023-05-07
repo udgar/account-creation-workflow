@@ -8,6 +8,7 @@ import com.example.camunda.model.Processes;
 import com.example.camunda.repository.AccountJpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,7 +31,7 @@ public class AccountService {
         workflowService.startWorkflow(entity.getUuid());
         var dto = mapper.model(entity);
         dto.setProcess(List.of(VERIFY_INFORMATION, RETOUCH, STOP));
-        entity.setNextAction(List.of(VERIFY_INFORMATION, RETOUCH, STOP));
+        entity.addNextAction(Arrays.asList(VERIFY_INFORMATION, RETOUCH, STOP));
         jpaRepository.save(entity);
         return dto;
     }
@@ -45,7 +46,7 @@ public class AccountService {
         var entity = jpaRepository.findByUuid(uuid).orElseThrow(IllegalAccessError::new);
         var nextProcess = workflowService.completeProcess(process, entity.getUuid());
         var model = mapper.model(entity);
-        entity.setNextAction(nextProcess);
+        entity.addNextAction(nextProcess);
         jpaRepository.save(entity);
         model.setProcess(nextProcess);
         return model;

@@ -31,12 +31,17 @@ public class AccountEntity {
     private String citizenshipNumber;
     private AccountType accountType;
     @ElementCollection
-    private List<Processes> nextAction;
+    private List<Processes> nextAction = new ArrayList<>();
     @ElementCollection
     private List<String> errors = new ArrayList<>();
     private BigDecimal initialAmount;
 
     public void addError(String error) {
         this.errors.add(error);
+    }
+
+    public void addNextAction(List<Processes> actions) {
+        this.nextAction.clear();
+        this.nextAction.addAll(actions);
     }
 }
