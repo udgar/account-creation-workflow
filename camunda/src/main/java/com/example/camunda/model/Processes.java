@@ -4,13 +4,11 @@ package com.example.camunda.model;
 public enum Processes {
     VERIFY_INFORMATION,
     RETOUCH,
-    CREATE_ACCOUNT,
     APPROVE_ACCOUNT,
     CANCEL_APPROVAL,
     STOP,
     VERIFY_STOP,
     CANCEL_STOP,
     APPROVE_CREATION,
-    CANCEL_CREATION,
-    STOP_ACCOUNT_PROCESSING
+    CANCEL_CREATION
 }
