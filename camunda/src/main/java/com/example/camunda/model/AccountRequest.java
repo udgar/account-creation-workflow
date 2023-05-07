@@ -13,7 +13,6 @@ public class AccountRequest {
     private String password;
     private String firstName;
     private Integer age;
-
     private String middleName;
     private String lastName;
     private String addressLine;

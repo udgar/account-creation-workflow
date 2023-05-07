@@ -17,7 +17,7 @@ public class StopAccountProcessingListener extends AccountWorkflowProcessListene
 
     @Override
     public Processes getProcess() {
-        return STOP_ACCOUNT_PROCESSING;
+        return STOP;
     }
 
     @Override

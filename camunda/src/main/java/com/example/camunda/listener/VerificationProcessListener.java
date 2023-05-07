@@ -27,8 +27,8 @@ public class VerificationProcessListener extends AccountWorkflowProcessListener 
     public List<Processes> getNextAction(String processInstanceId) {
         var task = this.taskService.createTaskQuery().active().processInstanceId(processInstanceId).list().get(0);
         if (taskService.getVariable(task.getId(), "isValid") == "false") {
-            return List.of(RETOUCH, VERIFY_INFORMATION);
+            return List.of(RETOUCH, VERIFY_INFORMATION, STOP);
         }
-        return List.of(CREATE_ACCOUNT);
+        return List.of(APPROVE_CREATION, CANCEL_CREATION);
     }
 }

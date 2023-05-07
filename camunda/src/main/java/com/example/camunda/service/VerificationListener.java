@@ -29,6 +29,7 @@ public class VerificationListener implements JavaDelegate {
         workFlowRepository.findByProcessInstanceId(processInstanceId).ifPresentOrElse(workflowEntity -> {
                     messageId = workflowEntity.getMessageId();
                     jpaRepository.findByUuid(messageId).ifPresentOrElse(accountEntity -> {
+                                accountEntity.getErrors().clear();
                                 var account = validationService.validateAccount(accountEntity);
                                 if (account.getErrors().isEmpty())
                                     execution.setVariable("isValid", "true");

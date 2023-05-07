@@ -34,6 +34,13 @@ public class AccountController {
         return ResponseEntity.ok(account);
     }
 
+    @PostMapping(value = "/{uuid}/complete/RETOUCH")
+    public ResponseEntity<?> completeRetouchProcess(@PathVariable String uuid, @RequestBody AccountRequest request) {
+        var account = service.retouch(uuid, request);
+        addLinks(account);
+        return ResponseEntity.ok(account);
+    }
+
     @GetMapping(value = "/{uuid}")
     public ResponseEntity<AccountDto> get(@PathVariable String uuid) {
         var account = service.get(uuid);
@@ -43,7 +50,7 @@ public class AccountController {
 
     private void addLinks(AccountDto accountDto) {
         accountDto.add(linkTo(methodOn(AccountController.class).get(accountDto.getUuid())).withSelfRel());
-        for (var process : accountDto.getProcess())
+        for (var process : accountDto.getNextAction())
             accountDto.add(linkTo(methodOn(AccountController.class).completeProcess(accountDto.getUuid(),
                     process.name())).withRel(process.name()));
     }
